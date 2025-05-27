@@ -1,0 +1,9 @@
+[functions]
+  directory = "netlify/functions"
+
+[build]
+  command = "echo 'Starting Netlify build for functions'"
+  publish = "."
+
+[[plugins]]
+package = "@netlify/plugin-functions-install-core"

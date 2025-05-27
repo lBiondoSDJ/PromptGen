@@ -1,0 +1,25 @@
+{
+  "name": "1.4.2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lBiondoSDJ/AICoach.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lBiondoSDJ/AICoach/issues"
+  },
+  "homepage": "https://github.com/lBiondoSDJ/AICoach#readme",
+  "description": "",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "google-auth-library": "^9.15.1",
+    "node-fetch": "^2.7.0"
+  }
+}

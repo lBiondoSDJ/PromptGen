@@ -1,0 +1,577 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-color: #202840; /* Blu scuro, quasi nero, elegante */
+    --secondary-color: #4CAF50; /* Verde brillante ma non troppo aggressivo, per azioni "positive" */
+    --accent-color: #007bff; /* Un blu più vivace per le azioni AI principali */
+    --light-bg: #f5f7fa;
+    --dark-text: #333;
+    --light-text: #fff;
+    --card-bg: #fff;
+    --border-color: #e0e0e0;
+    --shadow-light: rgba(0,0,0,0.08);
+    --shadow-medium: rgba(0,0,0,0.15);
+    --accordion-header-bg: #e9ecef;
+    --accordion-header-hover: #dee2e6;
+    --accordion-border: #ced4da;
+    --feedback-button-color: var(--secondary-color);
+    --feedback-button-hover: #449d48;
+    --content-max-width: 900px;
+    --main-padding: 1.5rem;
+    --bottom-spacing: 3rem;
+
+    /* Nuove variabili per una gestione più flessibile dei bottoni */
+    --button-primary-bg: var(--primary-color); /* Per "Genera prompt" */
+    --button-primary-hover: #1a2235;
+    --button-copy-bg: #6c757d; /* Grigio elegante per le azioni di copia */
+    --button-copy-hover: #5a6268;
+    --button-ai-generate-bg: var(--accent-color); /* Blu per "Genera risposta AI" */
+    --button-ai-generate-hover: #0056b3;
+
+    /* Colori aggiornati per i bottoni "Vai a AI esterna" e "Reset Output" */
+    --button-ai-continue-border-color: #17a2b8; /* Azzurro/Turchese per il bordo */
+    --button-ai-continue-bg: #f0f0f0; /* Grigio chiaro per lo sfondo */
+    --button-ai-continue-hover-bg: #e0e0e0; /* Grigio leggermente più scuro per hover */
+    --button-ai-continue-text-color: var(--button-ai-continue-border-color); /* Colore del testo come il bordo */
+
+    --button-reset-border-color: #dc3545; /* Rosso per il bordo */
+    --button-reset-bg: #f0f0f0; /* Grigio chiaro per lo sfondo */
+    --button-reset-hover-bg: #e0e0e0; /* Grigio leggermente più scuro per hover */
+    --button-reset-text-color: var(--button-reset-border-color); /* Colore del testo come il bordo */
+
+    --button-text-color: var(--light-text); /* Default per altri bottoni */
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--light-bg);
+    margin: 0;
+    padding: 0;
+    color: var(--dark-text);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    padding: 3rem var(--main-padding);
+    text-align: center;
+    box-shadow: 0 4px 15px var(--shadow-medium);
+}
+
+header h1 {
+    margin-bottom: 0.5rem;
+    font-size: 2.8rem;
+    font-weight: 700;
+}
+
+header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+main {
+    width: 100%;
+    padding: 2.5rem 0;
+    flex-grow: 1;
+    box-sizing: border-box;
+}
+
+.main-content-wrapper {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding: 0 var(--main-padding) var(--bottom-spacing);
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 5px 20px var(--shadow-light);
+    box-sizing: border-box;
+}
+
+#filter-container {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    padding-top: var(--main-padding);
+}
+
+#category-filter, #search-input {
+    flex: 1;
+    min-width: 250px;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: var(--card-bg);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+}
+
+#category-filter:focus, #search-input:focus,
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(32, 40, 64, 0.2);
+}
+
+.prompt-card {
+    border: 1px solid var(--accordion-border);
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    background-color: var(--card-bg);
+    box-shadow: 0 2px 10px var(--shadow-light);
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: var(--accordion-header-bg);
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--accordion-border);
+    transition: background-color 0.2s ease;
+}
+
+.card-header:hover {
+    background-color: var(--accordion-header-hover);
+}
+
+.card-header h3 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.card-header .icon {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.card-header.open .icon {
+    transform: rotate(180deg);
+}
+
+.card-content {
+    padding: 1.5rem;
+    display: none;
+    border-top: none;
+}
+
+.card-content.open {
+    display: block;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.prompt-card p {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    color: #555;
+}
+
+label {
+    font-weight: 600;
+    display: block;
+    margin-top: 1.2rem;
+    margin-bottom: 0.4rem;
+    color: var(--primary-color);
+    font-size: 0.95rem;
+}
+
+input, textarea, select {
+    width: calc(100% - 20px);
+    padding: 0.8rem 10px;
+    margin-top: 0.4rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Stili per i gruppi di bottoni */
+.button-group-row {
+    display: flex;
+    gap: 0.8rem; /* Spazio tra i bottoni */
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap; /* Permette il wrapping su schermi piccoli */
+    justify-content: space-around; /* Distribuisce lo spazio uniformemente */
+    align-items: stretch; /* Assicura che i bottoni abbiano la stessa altezza se il testo varia */
+}
+
+.button-group-row:last-child {
+    margin-bottom: 0;
+}
+
+.button-group {
+    margin-top: 1.5rem;
+}
+
+/* Stile generico per tutti i bottoni */
+button {
+    border: none;
+    padding: 0.8rem 1rem; /* Ridotto il padding laterale per dare più spazio al testo se necessario */
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 5px var(--shadow-light);
+    color: var(--button-text-color);
+    text-align: center; /* Centra il testo all'interno del bottone */
+    flex: 1; /* Permette ai bottoni di distribuirsi equamente */
+    min-width: 0; /* Impedisce che il contenuto causi overflow */
+    box-sizing: border-box; /* Include padding e border nella larghezza */
+    width: calc(50% - 0.4rem); /* Per 2 bottoni per riga, larghezza esatta (metà meno metà del gap) */
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px var(--shadow-medium);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Stili specifici per tipo di bottone */
+.generate-prompt-button {
+    background-color: var(--button-primary-bg);
+}
+
+.generate-prompt-button:hover {
+    background-color: var(--button-primary-hover);
+}
+
+.copy-button {
+    background-color: var(--button-copy-bg);
+}
+
+.copy-button:hover {
+    background-color: var(--button-copy-hover);
+}
+
+.ai-generate-button {
+    background-color: var(--button-ai-generate-bg);
+}
+
+.ai-generate-button:hover {
+    background-color: var(--button-ai-generate-hover);
+}
+
+/* Stili aggiornati per il bottone "Vai a AI esterna" */
+.continue-on-ai-button {
+    background-color: var(--button-ai-continue-bg);
+    color: var(--button-ai-continue-text-color);
+    border: 1px solid var(--button-ai-continue-border-color);
+}
+
+.continue-on-ai-button:hover {
+    background-color: var(--button-ai-continue-hover-bg);
+}
+
+/* Stili aggiornati per il bottone "Reset Output" */
+.reset-button {
+    background-color: var(--button-reset-bg);
+    color: var(--button-reset-text-color);
+    border: 1px solid var(--button-reset-border-color);
+}
+
+.reset-button:hover {
+    background-color: var(--button-reset-hover-bg);
+}
+
+.prompt-output {
+    background-color: #eef2f6;
+    padding: 1.2rem;
+    margin-top: 1.5rem;
+    border-radius: 8px;
+    font-family: monospace, sans-serif;
+    font-size: 0.95rem;
+    color: #444;
+    border: 1px dashed var(--border-color);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.note {
+    font-size: 0.9rem;
+    color: #666;
+    background-color: #ffeccf;
+    border-left: 4px solid #ffc107;
+    padding: 0.8rem;
+    border-radius: 5px;
+    margin-top: 1rem;
+}
+
+.feedback-section {
+    width: 100%;
+    max-width: var(--content-max-width);
+    margin: 2.5rem auto;
+    padding: var(--main-padding);
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 5px 20px var(--shadow-light);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.feedback-section p {
+    font-size: 1.1rem;
+    color: var(--dark-text);
+    margin-bottom: 1.5rem;
+}
+
+.feedback-button {
+    background-color: var(--feedback-button-color);
+    color: var(--light-text);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.feedback-button:hover {
+    background-color: var(--feedback-button-hover);
+    transform: translateY(-2px);
+}
+
+.feedback-button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: var(--primary-color);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.hidden {
+    display: none !important;
+}
+
+.ai-loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    font-style: italic;
+    color: #555;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.ai-spinner {
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-left-color: var(--accent-color);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+/* Stili per il Modale personalizzato (Copy Confirmation) */
+.custom-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.custom-modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.custom-modal-content {
+    background-color: var(--card-bg);
+    padding: 25px 35px;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px var(--shadow-medium);
+    max-width: 500px;
+    text-align: center;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.custom-modal-overlay.show .custom-modal-content {
+    transform: translateY(0);
+}
+
+.custom-modal-content h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+.custom-modal-content pre {
+    background-color: #f2f2f2;
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    border-radius: 8px;
+    max-height: 250px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    text-align: left;
+    font-family: monospace;
+    font-size: 0.95rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.custom-modal-content .close-button {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.custom-modal-content .close-button:hover {
+    background-color: #1a2235;
+}
+
+/* Stili per il nuovo modale di selezione AI */
+.ai-selection-modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.ai-selection-modal-content select {
+    width: 100%;
+    padding: 0.8rem 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background-color: var(--card-bg);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.ai-selection-modal-content .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.ai-selection-modal-content .modal-buttons button {
+    flex: 1;
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.ai-selection-modal-content .modal-buttons .confirm-button {
+    background-color: var(--secondary-color);
+    color: var(--light-text);
+    border: none;
+}
+
+.ai-selection-modal-content .modal-buttons .confirm-button:hover {
+    background-color: var(--feedback-button-hover);
+}
+
+.ai-selection-modal-content .modal-buttons .cancel-button {
+    background-color: var(--button-copy-bg);
+    color: var(--light-text);
+    border: none;
+}
+
+.ai-selection-modal-content .modal-buttons .cancel-button:hover {
+    background-color: var(--button-copy-hover);
+}
+
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .main-content-wrapper, .feedback-section {
+        margin: 1.5rem auto;
+        padding: 1rem;
+    }
+
+    .main-content-wrapper {
+        padding-bottom: 1.5rem;
+    }
+
+    #filter-container {
+        flex-direction: column;
+        gap: 1rem;
+        padding-top: 1rem;
+    }
+
+    .button-group-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .button-group-row button, .button-group-row a {
+        width: 100%; /* I bottoni tornano a larghezza piena su mobile */
+    }
+}
