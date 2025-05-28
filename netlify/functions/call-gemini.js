@@ -34,9 +34,8 @@ exports.handler = async (event, context) => {
 
     try {
         const genAI = new GoogleGenerativeAI(API_KEY);
- HEAD
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" }); // O "gemini-1.5-pro", "gemini-1.0-pro", ecc. Scegli il modello appropriato.
-fe30f8e22c49a0b7e207472fcc5cde56a1f7c88c
+        // Codice pulito dopo la risoluzione del conflitto
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" }); // Usiamo il modello che desideri
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
