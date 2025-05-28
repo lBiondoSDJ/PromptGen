@@ -42,14 +42,19 @@ export function confirmAISelection() {
         return;
     }
 
-    let contentToPrepopulate = "";
+ let contentToPrepopulate = "";
     if (GLOBAL_STATE.currentGeneratedPrompt) {
-        contentToPrepopulate += "Prompt:\n```\n" + GLOBAL_STATE.currentGeneratedPrompt + "\n```\n\n";
+        // Rimuovi "Prompt:\n```\n" e "\n```\n\n"
+        contentToPrepopulate += GLOBAL_STATE.currentGeneratedPrompt;
     }
     if (GLOBAL_STATE.currentAIResponse) {
-        contentToPrepopulate += "Risposta AI:\n```\n" + GLOBAL_STATE.currentAIResponse + "\n```\n\n";
+        if (contentToPrepopulate) { // Aggiungi una nuova riga solo se c'è già del contenuto
+            contentToPrepopulate += "\n\n";
+        }
+        // Rimuovi "Risposta AI:\n```\n" e "\n```\n\n"
+        contentToPrepopulate += GLOBAL_STATE.currentAIResponse;
     }
-
+    
     const newWindow = window.open(selectedAIUrl, '_blank');
     if (newWindow) {
         newWindow.focus();
