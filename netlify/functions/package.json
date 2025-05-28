@@ -4,8 +4,9 @@
   "description": "Netlify Function to fetch data from Google Sheets",
   "main": "get-my-sheets.js",
   "dependencies": {
-    "node-fetch": "^2.6.1",
+    "@google/generative-ai": "^0.24.1",
     "google-auth-library": "^9.0.0",
-    "googleapis": "^128.0.0"
+    "googleapis": "^128.0.0",
+    "node-fetch": "^2.6.1"
   }
 }
