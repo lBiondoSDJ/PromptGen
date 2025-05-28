@@ -3,6 +3,23 @@
 import { UI_ELEMENTS, GLOBAL_STATE, AI_OPTIONS } from './constants.js';
 import { callGeminiAPI } from './api.js';
 
+// Funzione helper per pulire i caratteri di newline
+function cleanNewlines(text) {
+    if (typeof text !== 'string') {
+        return text; // Assicurati che sia una stringa, altrimenti restituisci l'originale
+    }
+    // Sostituisce due o più a capo consecutivi (con eventuali spazi in mezzo) con un singolo a capo
+    // Questa regex è robusta: /\n\s*\n/g cerca "\n", poi zero o più spazi, poi un altro "\n"
+    let cleanedText = text;
+    let previousText;
+    do {
+        previousText = cleanedText;
+        cleanedText = cleanedText.replace(/\n\s*\n/g, '\n');
+    } while (cleanedText !== previousText); // Continua finché non ci sono più sostituzioni
+    return cleanedText.trim(); // Rimuovi eventuali spazi bianchi all'inizio o alla fine
+}
+
+
 // Funzioni per il modale di conferma copia
 export function showCustomModal(title, content) {
     UI_ELEMENTS.modalTitle.textContent = title;
@@ -44,10 +61,12 @@ export function confirmAISelection() {
 
     let contentToPrepopulate = "";
     if (GLOBAL_STATE.currentGeneratedPrompt) {
-        contentToPrepopulate += "Prompt:\n```\n" + GLOBAL_STATE.currentGeneratedPrompt + "\n```\n\n";
+        // Applica cleanNewlines anche qui per il testo da copiare
+        contentToPrepopulate += "Prompt:\n```\n" + cleanNewlines(GLOBAL_STATE.currentGeneratedPrompt) + "\n```\n\n";
     }
     if (GLOBAL_STATE.currentAIResponse) {
-        contentToPrepopulate += "Risposta AI:\n```\n" + GLOBAL_STATE.currentAIResponse + "\n```\n\n";
+        // Applica cleanNewlines anche qui per il testo da copiare
+        contentToPrepopulate += "Risposta AI:\n```\n" + cleanNewlines(GLOBAL_STATE.currentAIResponse) + "\n```\n\n";
     }
 
     const newWindow = window.open(selectedAIUrl, '_blank');
@@ -376,6 +395,9 @@ export function renderCards(prompts, filterCategoria = "", searchTerm = "") {
                         finalPrompt = finalPrompt.replace(/\[CHARACTERS\]/g, inputs.characters || "");
                     }
 
+                    // *** PUNTO CHIAVE: APPLICA LA PULIZIA QUI ***
+                    finalPrompt = cleanNewlines(finalPrompt); // Applica la funzione di pulizia
+
                     GLOBAL_STATE.currentGeneratedPrompt = finalPrompt;
                     outputElement.innerHTML = marked.parse(finalPrompt);
                     outputElement.style.color = '#444';
@@ -387,7 +409,8 @@ export function renderCards(prompts, filterCategoria = "", searchTerm = "") {
                         showCustomModal("Azione non valida", "Genera prima il prompt da copiare.");
                         return;
                     }
-                    copyTextToClipboard(textToCopy);
+                    // Applica cleanNewlines anche al testo copiato
+                    copyTextToClipboard(cleanNewlines(textToCopy));
                     showCustomModal("Copia Effettuata", "Il prompt è stato copiato negli appunti.");
                 },
                 onGenerateAIResponse: async (outputElement, loadingIndicatorElement) => {
@@ -402,8 +425,10 @@ export function renderCards(prompts, filterCategoria = "", searchTerm = "") {
                     try {
                         const aiResponse = await callGeminiAPI(GLOBAL_STATE.currentGeneratedPrompt);
                         if (aiResponse) {
-                            GLOBAL_STATE.currentAIResponse = aiResponse;
-                            outputElement.innerHTML = marked.parse(aiResponse);
+                            // *** PUNTO CHIAVE: APPLICA LA PULIZIA QUI ANCHE PER LA RISPOSTA AI ***
+                            const cleanedAIResponse = cleanNewlines(aiResponse); // Applica la funzione di pulizia
+                            GLOBAL_STATE.currentAIResponse = cleanedAIResponse;
+                            outputElement.innerHTML = marked.parse(cleanedAIResponse);
                             outputElement.style.color = '#222';
                         } else {
                             outputElement.innerHTML = "Nessuna risposta valida dall'AI.";
@@ -425,7 +450,8 @@ export function renderCards(prompts, filterCategoria = "", searchTerm = "") {
                         showCustomModal("Azione non valida", "Genera prima una risposta AI da copiare.");
                         return;
                     }
-                    copyTextToClipboard(textToCopy);
+                    // Applica cleanNewlines anche al testo copiato
+                    copyTextToClipboard(cleanNewlines(textToCopy));
                     showCustomModal("Copia Effettuata", "La risposta AI è stata copiata negli appunti.");
                 },
                 onContinueOnAI: () => {
