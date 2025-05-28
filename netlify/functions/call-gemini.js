@@ -73,8 +73,8 @@ exports.handler = async (event, context) => {
         console.log("Attempting to initialize GoogleGenerativeAI with provided API Key.");
         const genAI = new GoogleGenerativeAI(API_KEY);
         // Utilizziamo "gemini-1.5-pro" come richiesto, dato che ha funzionato in precedenza
-        console.log("Initializing Gemini model: gemini-1.5-pro");
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+        console.log("Initializing Gemini model: gemini-1.0-pro");
+        const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro" });
 
         console.log("Calling model.generateContent with the prompt...");
         // Aggiungi un timeout esplicito per la chiamata API di Gemini se la libreria lo supporta,
