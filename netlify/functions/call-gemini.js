@@ -3,7 +3,7 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 exports.handler = async (event, context) => {
-    console.log("FUNCTION START: call-gemini.js initiated for ListModels.");
+    console.log("FUNCTION START: call-gemini.js initiated.");
     console.log("Event HTTP Method:", event.httpMethod);
 
     if (event.httpMethod === "OPTIONS") {
@@ -27,14 +27,25 @@ exports.handler = async (event, context) => {
         };
     }
 
-    // Non abbiamo bisogno del prompt per ListModels, ma lo manteniamo per consistenza
-    let prompt = null;
+    let prompt;
     try {
         const body = JSON.parse(event.body);
-        prompt = body.prompt; // Potrebbe essere undefined, va bene per questo test
-        console.log("Parsed prompt (first 100 chars):", prompt ? prompt.substring(0, 100) + "..." : "No prompt provided for this test.");
+        prompt = body.prompt;
+        console.log("Parsed prompt (first 100 chars):", prompt ? prompt.substring(0, 100) + "..." : "No prompt");
     } catch (parseError) {
-        console.warn("Could not parse request body (expected for ListModels test):", parseError.message);
+        console.error("Failed to parse request body:", parseError);
+        return {
+            statusCode: 400,
+            body: JSON.stringify({ error: "Bad Request", message: "Invalid JSON body." }),
+        };
+    }
+
+    if (!prompt) {
+        console.error("Missing 'prompt' in request body.");
+        return {
+            statusCode: 400,
+            body: JSON.stringify({ error: "Bad Request", message: "Missing 'prompt' in request body." }),
+        };
     }
 
     const API_KEY = process.env.GEMINI_API_KEY;
@@ -50,17 +61,16 @@ exports.handler = async (event, context) => {
     try {
         console.log("Attempting to initialize GoogleGenerativeAI with provided API Key.");
         const genAI = new GoogleGenerativeAI(API_KEY);
+        console.log("Initializing Gemini model: gemini-1.5-pro");
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
-        console.log("Calling ListModels to get available models...");
-        const { models } = await genAI.listModels(); // CHIAMA LISTMODELS QUI
+        console.log("Calling model.generateContent with the prompt...");
+        const result = await model.generateContent(prompt);
+        console.log("Received result from generateContent.");
 
-        const availableModels = models.map(model => ({
-            name: model.name,
-            supportedGenerationMethods: model.supportedGenerationMethods
-        }));
-
-        console.log("Successfully retrieved available models:");
-        console.log(JSON.stringify(availableModels, null, 2)); // Stampa la lista dei modelli in formato leggibile
+        const response = await result.response;
+        const text = response.text();
+        console.log("Gemini AI response obtained (first 100 chars):", text ? text.substring(0, 100) + "..." : "No text received.");
 
         return {
             statusCode: 200,
@@ -68,18 +78,18 @@ exports.handler = async (event, context) => {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*",
             },
-            body: JSON.stringify({ availableModels: availableModels }), // Restituisce la lista al client
+            body: JSON.stringify({ aiResponse: text }),
         };
 
     } catch (error) {
-        console.error("Caught error during ListModels API call:");
+        console.error("Caught error during Gemini API call:");
         console.error("Error name:", error.name);
         console.error("Error message:", error.message);
         if (error.stack) {
             console.error("Error stack:", error.stack);
         }
 
-        const errorMessage = `Failed to list models. Details: ${error.message || 'Unknown error'}.`;
+        const errorMessage = `Failed to get response from AI. Details: ${error.message || 'Unknown error'}.`;
         return {
             statusCode: 500,
             body: JSON.stringify({ error: "Internal Server Error", message: errorMessage }),
