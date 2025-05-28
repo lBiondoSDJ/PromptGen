@@ -307,7 +307,42 @@ button:active {
     border: 1px dashed var(--border-color);
     white-space: pre-wrap;
     word-wrap: break-word;
+    /* MODIFICHE INTRODOTTE QUI */
+    line-height: 1.4; /* Riduce l'interlinea */
+    margin-top: 0; /* Rimuove il margine superiore */
+    margin-bottom: 0; /* Rimuove il margine inferiore */
 }
+
+/* Se l'output del prompt può contenere paragrafi o altri elementi di blocco,
+   è utile resettare anche i loro margini all'interno di .prompt-output */
+.prompt-output p,
+.prompt-output div,
+.prompt-output ul,
+.prompt-output ol,
+.prompt-output pre,
+.prompt-output h1, .prompt-output h2, .prompt-output h3, .prompt-output h4, .prompt-output h5, .prompt-output h6 {
+    margin-top: 0.5em; /* Margine minimo tra i blocchi, puoi aggiustarlo */
+    margin-bottom: 0.5em; /* Margine minimo tra i blocchi, puoi aggiustarlo */
+}
+
+.prompt-output p:first-child,
+.prompt-output div:first-child,
+.prompt-output ul:first-child,
+.prompt-output ol:first-child,
+.prompt-output pre:first-child,
+.prompt-output h1:first-child, .prompt-output h2:first-child, .prompt-output h3:first-child, .prompt-output h4:first-child, .prompt-output h5:first-child, .prompt-output h6:first-child {
+    margin-top: 0; /* Nessun margine superiore per il primo elemento */
+}
+
+.prompt-output p:last-child,
+.prompt-output div:last-child,
+.prompt-output ul:last-child,
+.prompt-output ol:last-child,
+.prompt-output pre:last-child,
+.prompt-output h1:last-child, .prompt-output h2:last-child, .prompt-output h3:last-child, .prompt-output h4:last-child, .prompt-output h5:last-child, .prompt-output h6:last-child {
+    margin-bottom: 0; /* Nessun margine inferiore per l'ultimo elemento */
+}
+
 
 .note {
     font-size: 0.9rem;
