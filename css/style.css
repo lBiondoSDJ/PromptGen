@@ -298,25 +298,45 @@ button:active {
 
 .prompt-output {
     background-color: #eef2f6;
-    padding: 1.2rem;
-    margin-top: 1.5rem; /* Mantieni questo per lo spazio dagli elementi sopra */
+    padding: 1.5rem; /* Aumentato leggermente il padding per più aria */
+    margin-top: 1.5rem; /* Mantiene lo spazio dagli elementi sopra */
     border-radius: 8px;
-    font-family: monospace, sans-serif;
+    font-family: 'Inter', sans-serif, monospace; /* Preferiamo Inter, monospace come fallback */
     font-size: 0.95rem;
     color: #444;
     border: 1px dashed var(--border-color);
-    word-wrap: break-word; /* Mantiene la suddivisione delle parole lunghe */
-    /* MODIFICHE CHIAVE QUI */
-    white-space: pre-line; /* CAMBIATO: Collapsa le sequenze di spazi e newlines, ma mantiene i singoli a capo */
-    line-height: 1.2; /* RIDOTTO ANCORA: per un testo molto compatto */
-    
-    /* Aggiunto per un aspetto più pulito e leggibile */
-    text-align: left;
-    overflow-x: auto; /* Permette lo scroll orizzontale se il testo è molto lungo */
-    
-    /* text-wrap: pretty; - Sperimentale, può aiutare a migliorare la formattazione dei wrap */
-    /* text-wrap: pretty; */
+    word-wrap: break-word;
+    text-align: left; /* Allinea il testo a sinistra per leggibilità */
+
+    /* MODIFICHE CHIAVE PER TASK 1 & 2 */
+    line-height: 1.45; /* Leggermente più arioso di 1.2/1.3, ma comunque compatto e leggibile */
+    white-space: pre-line; /* Fondamentale per collassare multiple newline in una singola */
+    max-height: 250px; /* Altezza fissa del campo output */
+    overflow-y: auto; /* Aggiunge scrollbar verticale quando il contenuto supera max-height */
+    overflow-x: hidden; /* Nasconde la scrollbar orizzontale, il word-wrap dovrebbe bastare */
+    /* text-wrap: balance; /* Sperimentale: distribuisce il testo in modo più bilanciato sulle righe */
+    /* text-wrap: pretty; */ /* Altra opzione sperimentale per un wrapping più elegante */
 }
+
+/* Stili per la scrollbar (solo per WebKit - Chrome, Safari, Edge) */
+.prompt-output::-webkit-scrollbar {
+    width: 8px; /* Larghezza della scrollbar verticale */
+}
+
+.prompt-output::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Colore dello sfondo della traccia */
+    border-radius: 10px;
+}
+
+.prompt-output::-webkit-scrollbar-thumb {
+    background: #888; /* Colore del "pollice" (la parte trascinabile) */
+    border-radius: 10px;
+}
+
+.prompt-output::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Colore al passaggio del mouse */
+}
+
 
 /* Margini per gli elementi di blocco ALL'INTERNO di .prompt-output */
 /* Questi si applicano solo se l'output include tag HTML come <p>, <div>, <ul>, etc. */
