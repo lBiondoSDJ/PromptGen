@@ -397,7 +397,7 @@ export function renderCards(prompts, filterCategoria = "", searchTerm = "") {
                 },
                 onGenerateAIResponse: async (outputElement, loadingIndicatorElement) => {
                     if (!GLOBAL_STATE.currentGeneratedPrompt || GLOBAL_STATE.currentGeneratedPrompt.includes("[") || GLOBAL_STATE.currentGeneratedPrompt.includes("]")) {
-                        showCustomModal("Azione non valida", "Per favore, genera prima un prompt personalizzato e assicurati che non contenga placeholder non sostituiti (es. [ESPERIENZA]).");
+                        showCustomModal("Azione non valida", "Per favore, genera prima un prompt personalizzato e assicurati che non contenga campi non completati.");
                         return;
                     }
                     loadingIndicatorElement.style.display = 'flex';
