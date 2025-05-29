@@ -212,7 +212,7 @@ textarea {
     border-radius: 50%;
     background-color: var(--accent-color); /* Un colore che si abbini ai bottoni AI */
     color: var(--light-text);
-    font-size: 0.7em; /* Dimensione del "?" all'interno del cerchio */
+    font-size: 0.6em; /* Dimensione del "?" all'interno del cerchio */
     font-weight: 700;
     text-align: center;
     line-height: 1.2em; /* Centra verticalmente il "?" */
@@ -246,7 +246,7 @@ textarea {
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
     /* MODIFICATO: Inizia leggermente sopra per animazione verso il basso */
     transform: translateY(-10px); /* Cambiato da 10px a -10px */
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     line-height: 1.4;
 }
 
