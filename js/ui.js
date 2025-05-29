@@ -114,9 +114,9 @@ export function createCard(titolo, descrizione, promptTemplate, categoria, label
 
     if (promptTemplate.includes("[ESPERIENZA]")) {
         const esperienzaLabel = document.createElement("label");
-        esperienzaLabel.textContent = "Tema o campo di esperienza principale:";
+        esperienzaLabel.textContent = "Ambito specifico di competenza ed esperienza:";
         esperienzaInput = document.createElement("input");
-        esperienzaInput.placeholder = "es. economia, esteri, politica...";
+        esperienzaInput.placeholder = "es. tennis, rock & roll, mercati finanziari, parlamento, diritto penale,...";
         esperienzaInput.id = `esperienza-${index}`;
         cardContent.appendChild(esperienzaLabel);
         cardContent.appendChild(esperienzaInput);
@@ -124,9 +124,9 @@ export function createCard(titolo, descrizione, promptTemplate, categoria, label
 
     if (promptTemplate.includes("[GENERE]")) {
         const genereLabel = document.createElement("label");
-        genereLabel.textContent = "Genere di giornalismo:";
+        genereLabel.textContent = "Contesto generale per il compito richiesto:";
         genereInput = document.createElement("input");
-        genereInput.placeholder = "es. cronaca, cultura, sport...";
+        genereInput.placeholder = "es. sport, cultura, cronaca, economia, musica, politica,…";
         genereInput.id = `genere-${index}`;
         cardContent.appendChild(genereLabel);
         cardContent.appendChild(genereInput);
@@ -136,7 +136,7 @@ export function createCard(titolo, descrizione, promptTemplate, categoria, label
         const testataLabel = document.createElement("label");
         testataLabel.textContent = "Nome della testata:";
         testataInput = document.createElement("input");
-        testataInput.placeholder = "es. Il Sole 24 Ore, La Repubblica...";
+        testataInput.placeholder = "es. Il Sole 24 Ore, calciomercato.com, uffici stampa, agenzie di comunicazione,...";
         testataInput.id = `testata-${index}`;
         cardContent.appendChild(testataLabel);
         cardContent.appendChild(testataInput);
@@ -183,7 +183,7 @@ export function createCard(titolo, descrizione, promptTemplate, categoria, label
         charactersLabel.textContent = typeof labelCharacters === 'string' && labelCharacters.trim() !== '' ? labelCharacters : "Numero di battute desiderate:";
         charactersInput = document.createElement("input");
         charactersInput.type = "number";
-        charactersInput.placeholder = "es. 500";
+        charactersInput.placeholder = "es. 2400";
         charactersInput.id = `characters-${index}`;
         cardContent.appendChild(charactersLabel);
         cardContent.appendChild(charactersInput);
