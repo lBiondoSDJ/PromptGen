@@ -112,33 +112,87 @@ export function createCard(titolo, descrizione, promptTemplate, categoria, label
     // MODIFICATO: rimosso 'dettagliInput' perché non più utilizzato
     // let dettagliInput;
 
-    if (promptTemplate.includes("[ESPERIENZA]")) {
+if (promptTemplate.includes("[ESPERIENZA]")) {
+        const esperienzaLabelContainer = document.createElement("div"); // Nuovo contenitore
+        esperienzaLabelContainer.className = "label-with-help"; // Applica la classe flexbox
+
         const esperienzaLabel = document.createElement("label");
         esperienzaLabel.textContent = "Ambito specifico di competenza ed esperienza:";
+        
+        const esperienzaHelpIcon = document.createElement("span"); // Icona "?"
+        esperienzaHelpIcon.className = "help-icon";
+        esperienzaHelpIcon.textContent = "?";
+
+        const esperienzaTooltip = document.createElement("span"); // Tooltip
+        esperienzaTooltip.className = "tooltip";
+        esperienzaTooltip.textContent = "Fornisce al modello linguistico il contesto appropriato e specifico per restituire una risposta coerente. Questo aiuta l'IA a usare la terminologia e lo stile appropriati.";
+        
+        esperienzaHelpIcon.appendChild(esperienzaTooltip); // Il tooltip è figlio dell'icona
+
+        esperienzaLabelContainer.appendChild(esperienzaLabel);
+        esperienzaLabelContainer.appendChild(esperienzaHelpIcon);
+        
         esperienzaInput = document.createElement("input");
         esperienzaInput.placeholder = "es. tennis, rock & roll, mercati finanziari, parlamento, diritto penale,...";
         esperienzaInput.id = `esperienza-${index}`;
-        cardContent.appendChild(esperienzaLabel);
+        
+        cardContent.appendChild(esperienzaLabelContainer); // Aggiungi il contenitore
         cardContent.appendChild(esperienzaInput);
     }
 
-    if (promptTemplate.includes("[GENERE]")) {
+if (promptTemplate.includes("[GENERE]")) {
+        const genereLabelContainer = document.createElement("div"); // Nuovo contenitore
+        genereLabelContainer.className = "label-with-help"; // Applica la classe flexbox
+
         const genereLabel = document.createElement("label");
         genereLabel.textContent = "Contesto generale per il compito richiesto:";
+        
+        const genereHelpIcon = document.createElement("span"); // Icona "?"
+        genereHelpIcon.className = "help-icon";
+        genereHelpIcon.textContent = "?";
+
+        const genereTooltip = document.createElement("span"); // Tooltip
+        genereTooltip.className = "tooltip";
+        genereTooltip.textContent = "Definisce al modello linguistico i confini entro cui spaziare per restituire una risposta appropriata orientando l'IA sul contesto generale del compito da svolgere.";
+        
+        genereHelpIcon.appendChild(genereTooltip); // Il tooltip è figlio dell'icona
+
+        genereLabelContainer.appendChild(genereLabel);
+        genereLabelContainer.appendChild(genereHelpIcon);
+
         genereInput = document.createElement("input");
         genereInput.placeholder = "es. sport, cultura, cronaca, economia, musica, politica,…";
         genereInput.id = `genere-${index}`;
-        cardContent.appendChild(genereLabel);
+        
+        cardContent.appendChild(genereLabelContainer); // Aggiungi il contenitore
         cardContent.appendChild(genereInput);
     }
 
-    if (promptTemplate.includes("[TESTATA]")) {
+if (promptTemplate.includes("[TESTATA]")) {
+        const testataLabelContainer = document.createElement("div"); // Nuovo contenitore
+        testataLabelContainer.className = "label-with-help"; // Applica la classe flexbox
+
         const testataLabel = document.createElement("label");
-        testataLabel.textContent = "Nome della testata:";
+        testataLabel.textContent = "Nome della testata o dell’operatore di comunicazione:";
+        
+        const testataHelpIcon = document.createElement("span"); // Icona "?"
+        testataHelpIcon.className = "help-icon";
+        testataHelpIcon.textContent = "?";
+
+        const testataTooltip = document.createElement("span"); // Tooltip
+        testataTooltip.className = "tooltip";
+        testataTooltip.textContent = "Specifica il nome del tuo giornale, blog, agenzia di stampa o ufficio comunicazione. L'IA cercherà di replicare lo stile e il tono tipici dell'organizzazione.";
+        
+        testataHelpIcon.appendChild(testataTooltip); // Il tooltip è figlio dell'icona
+
+        testataLabelContainer.appendChild(testataLabel);
+        testataLabelContainer.appendChild(testataHelpIcon);
+
         testataInput = document.createElement("input");
         testataInput.placeholder = "es. Il Sole 24 Ore, calciomercato.com, uffici stampa, agenzie di comunicazione,...";
         testataInput.id = `testata-${index}`;
-        cardContent.appendChild(testataLabel);
+        
+        cardContent.appendChild(testataLabelContainer); // Aggiungi il contenitore
         cardContent.appendChild(testataInput);
     }
 

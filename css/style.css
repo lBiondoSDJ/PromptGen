@@ -203,6 +203,88 @@ textarea {
     min-height: 80px;
 }
 
+/* Stili per il simbolo del punto interrogativo e il tooltip */
+
+.help-icon {
+    display: inline-block;
+    width: 1.2em; /* Dimensione del cerchio */
+    height: 1.2em; /* Dimensione del cerchio */
+    border-radius: 50%;
+    background-color: var(--accent-color); /* Un colore che si abbini ai bottoni AI */
+    color: var(--light-text);
+    font-size: 0.7em; /* Dimensione del "?" all'interno del cerchio */
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.2em; /* Centra verticalmente il "?" */
+    cursor: help; /* Cambia il cursore per indicare interattività */
+    margin-left: 0.5rem; /* Spazio a sinistra del "?" */
+    position: relative; /* Necessario per posizionare il tooltip relativamente */
+    top: -2px; /* Aggiusta la posizione verticale rispetto alla label */
+    transition: background-color 0.2s ease;
+}
+
+.help-icon:hover {
+    background-color: #0056b3; /* Un blu leggermente più scuro al hover */
+}
+
+.tooltip {
+    visibility: hidden;
+    opacity: 0;
+    width: 250px; /* Larghezza fissa del tooltip */
+    background-color: var(--primary-color); /* Sfondo scuro per il tooltip */
+    color: var(--light-text);
+    text-align: left;
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    position: absolute;
+    z-index: 1001; /* Assicurati che sia sopra gli altri elementi */
+    bottom: 125%; /* Posiziona il tooltip sopra l'icona */
+    left: 50%;
+    margin-left: -125px; /* Centra il tooltip */
+    box-shadow: 0 4px 15px var(--shadow-medium);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    transform: translateY(10px); /* Inizia leggermente sotto */
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* Freccia in basso */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--primary-color) transparent transparent transparent; /* Colore freccia */
+}
+
+.help-icon:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0); /* Sposta in posizione finale */
+}
+
+/* Assicurati che il tooltip non venga visualizzato in caso di stampa */
+@media print {
+    .tooltip {
+        display: none !important;
+    }
+}
+
+/* Allineamento della label con l'icona */
+.label-with-help {
+    display: flex;
+    align-items: center; /* Allinea verticalmente label e icona */
+    /* Rimuovi il margin-bottom dalla label originale e applicalo al contenitore flex */
+    margin-top: 1.2rem;
+    margin-bottom: 0.4rem;
+}
+
+.label-with-help label {
+    margin-bottom: 0; /* Rimuovi il margin-bottom della label interna se presente */
+}
+
 /* Stili per i gruppi di bottoni */
 .button-group-row {
     display: flex;
