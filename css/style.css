@@ -219,7 +219,7 @@ textarea {
     cursor: help; /* Cambia il cursore per indicare interattività */
     margin-left: 0.5rem; /* Spazio a sinistra del "?" */
     position: relative; /* Necessario per posizionare il tooltip relativamente */
-    top: -2px; /* Aggiusta la posizione verticale rispetto alla label */
+    top: 0px; /* Aggiusta la posizione verticale rispetto alla label */
     transition: background-color 0.2s ease;
 }
 
