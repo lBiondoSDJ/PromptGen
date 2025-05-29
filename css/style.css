@@ -238,12 +238,14 @@ textarea {
     padding: 0.8rem 1rem;
     position: absolute;
     z-index: 1001; /* Assicurati che sia sopra gli altri elementi */
-    bottom: 125%; /* Posiziona il tooltip sopra l'icona */
+    /* MODIFICATO: Posiziona il tooltip sotto l'icona */
+    top: 125%; /* Cambiato da bottom a top */
     left: 50%;
     margin-left: -125px; /* Centra il tooltip */
     box-shadow: 0 4px 15px var(--shadow-medium);
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-    transform: translateY(10px); /* Inizia leggermente sotto */
+    /* MODIFICATO: Inizia leggermente sopra per animazione verso il basso */
+    transform: translateY(-10px); /* Cambiato da 10px a -10px */
     font-size: 0.9rem;
     line-height: 1.4;
 }
@@ -251,12 +253,14 @@ textarea {
 .tooltip::after {
     content: "";
     position: absolute;
-    top: 100%; /* Freccia in basso */
+    /* MODIFICATO: Freccia in alto, punta verso l'icona */
+    bottom: 100%; /* Cambiato da top a bottom */
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: var(--primary-color) transparent transparent transparent; /* Colore freccia */
+    /* MODIFICATO: Colore freccia per puntare verso l'alto */
+    border-color: transparent transparent var(--primary-color) transparent; /* Cambiato il colore */
 }
 
 .help-icon:hover .tooltip {
