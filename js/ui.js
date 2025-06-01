@@ -22,20 +22,16 @@ const appUIState = {
 
 // 2. Funzione per aggiornare lo stato e innescare il rendering
 function setUIState(newState) {
-    // console.log("Updating UI State:", { ...appUIState, ...newState }); // Per debug
     Object.assign(appUIState, newState);
     renderUIBasedOnState();
 }
 
 // 3. Funzione centrale per il rendering dell'UI in base allo stato
 function renderUIBasedOnState() {
-    // console.log("Rendering UI based on state:", appUIState); // Per debug
-
     // Gestione Spinner Iniziale (all'avvio dell'app per caricare i prompt)
-    if (UI_ELEMENTS.loadingSpinner) { // Assicurati che l'elemento esista
+    if (UI_ELEMENTS.loadingSpinner) {
         if (appUIState.isLoadingInitialPrompts) {
             UI_ELEMENTS.loadingSpinner.classList.remove("hidden");
-            // Potresti voler pulire il container quando il caricamento è attivo
             if (UI_ELEMENTS.promptContainer) {
                 UI_ELEMENTS.promptContainer.innerHTML = '';
             }
@@ -43,7 +39,6 @@ function renderUIBasedOnState() {
             UI_ELEMENTS.loadingSpinner.classList.add("hidden");
         }
     }
-
 
     // Gestione Custom Modal
     if (UI_ELEMENTS.customModalOverlay && UI_ELEMENTS.modalTitle && UI_ELEMENTS.modalContent) {
@@ -56,11 +51,9 @@ function renderUIBasedOnState() {
         }
     }
 
-
     // Gestione AI Selection Modal
     if (UI_ELEMENTS.aiSelectionModalOverlay && UI_ELEMENTS.aiSelectionDropdown) {
         if (appUIState.aiSelectionModal.isVisible) {
-            // Popola il dropdown con le opzioni AI (se non già fatto, per efficienza)
             if (UI_ELEMENTS.aiSelectionDropdown.options.length === 0 || UI_ELEMENTS.aiSelectionDropdown.options.length !== AI_OPTIONS.length) {
                 UI_ELEMENTS.aiSelectionDropdown.innerHTML = '';
                 AI_OPTIONS.forEach(ai => {
@@ -76,20 +69,18 @@ function renderUIBasedOnState() {
         }
     }
 
-
     // Gestione del messaggio di errore globale
-    if (UI_ELEMENTS.globalErrorMessage) { // Assicurati che l'elemento esista
+    if (UI_ELEMENTS.globalErrorMessage) {
         if (appUIState.globalErrorMessage) {
             UI_ELEMENTS.globalErrorMessage.textContent = appUIState.globalErrorMessage;
             UI_ELEMENTS.globalErrorMessage.style.display = 'block';
         } else {
             UI_ELEMENTS.globalErrorMessage.style.display = 'none';
-            UI_ELEMENTS.globalErrorMessage.textContent = ''; // Pulisci il testo quando non visibile
+            UI_ELEMENTS.globalErrorMessage.textContent = '';
         }
     }
 }
 
-// Associa la chiusura dei modali direttamente agli eventi UI una volta che il DOM è pronto
 document.addEventListener('DOMContentLoaded', () => {
     if (UI_ELEMENTS.customModalOverlay) {
         UI_ELEMENTS.customModalOverlay.addEventListener('click', (event) => {
@@ -107,15 +98,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (UI_ELEMENTS.aiSelectionConfirmButton) { // Assicurati di aggiungere questo ID nel tuo index.html
+    if (UI_ELEMENTS.aiSelectionConfirmButton) {
         UI_ELEMENTS.aiSelectionConfirmButton.addEventListener('click', confirmAISelection);
     }
-    // Esegui il rendering iniziale quando il DOM è carico, per assicurarti che lo stato predefinito sia mostrato
     renderUIBasedOnState();
 });
-
-
-// Funzioni esposte per essere chiamate dagli altri moduli (main.js, card callbacks)
 
 export function showCustomModal(title, content) {
     setUIState({
@@ -156,7 +143,6 @@ export function hideAISelectionModal() {
 export function confirmAISelection() {
     const selectedAIUrl = UI_ELEMENTS.aiSelectionDropdown.value;
 
-    // Ora leggiamo da appUIState invece di GLOBAL_STATE
     if (!appUIState.currentGeneratedPrompt && !appUIState.currentAIResponse) {
         hideAISelectionModal();
         showCustomModal("Azione non valida", "Genera un prompt o una risposta AI per continuare.");
@@ -188,7 +174,6 @@ export function confirmAISelection() {
     }
 }
 
-// Funzione per la creazione delle card (la maggior parte della logica rimane invariata)
 export function createCard(titolo, descrizione, promptTemplate, categoria, labelTesto, placeholderText, labelLang, labelCharacters, index, callbacks) {
     const card = document.createElement("div");
     card.className = "prompt-card";
@@ -476,14 +461,10 @@ function toggleCardContent(cardHeader, cardContent) {
     }
 }
 
-export function renderCards(prompts, filterCategoria = "", searchTerm = "", titleFilterValue = "") {
-    // Ora hideLoadingSpinner e showLoadingSpinner gestiscono appUIState, quindi non servono qui
-    // UI_ELEMENTS.loadingSpinner.classList.add("hidden"); // Rimossa
-
+export function renderCards(prompts, filterCategoria = "", searchTerm = "") { // RIMOSSO: titleFilterValue
     if (UI_ELEMENTS.promptContainer) {
-        UI_ELEMENTS.promptContainer.innerHTML = ""; // Pulisce il container prima di renderizzare
+        UI_ELEMENTS.promptContainer.innerHTML = "";
     }
-
 
     const filteredPrompts = prompts.filter((row) => {
         if (row.length < 6) {
@@ -495,9 +476,8 @@ export function renderCards(prompts, filterCategoria = "", searchTerm = "", titl
         const matchesSearch = !searchTerm ||
             (titolo && titolo.toLowerCase().includes(searchTerm)) ||
             (descrizione && descrizione.toLowerCase().includes(searchTerm));
-        const matchesTitle = !titleFilterValue || (titolo && titolo === titleFilterValue); // Nuovo filtro per titolo esatto
-
-        return matchesCategory && matchesSearch && matchesTitle;
+        // RIMOSSO: matchesTitle
+        return matchesCategory && matchesSearch;
     });
 
     if (filteredPrompts.length === 0) {
@@ -525,13 +505,11 @@ export function renderCards(prompts, filterCategoria = "", searchTerm = "", titl
                         finalPrompt = finalPrompt.replace(/\[CHARACTERS\]/g, inputs.characters || "");
                     }
 
-                    // Aggiorna appUIState invece di GLOBAL_STATE
                     setUIState({ currentGeneratedPrompt: finalPrompt, currentAIResponse: "" });
                     outputElement.innerHTML = marked.parse(finalPrompt);
                     outputElement.style.color = '#444';
                 },
                 onCopyPrompt: () => {
-                    // Leggi da appUIState
                     const textToCopy = appUIState.currentGeneratedPrompt;
                     if (!textToCopy) {
                         showCustomModal("Azione non valida", "Genera prima il prompt da copiare.");
@@ -541,12 +519,10 @@ export function renderCards(prompts, filterCategoria = "", searchTerm = "", titl
                     showCustomModal("Copia Effettuata", "Il prompt è stato copiato negli appunti.");
                 },
                 onGenerateAIResponse: async (outputElement, loadingIndicatorElement) => {
-                    // Leggi da appUIState
                     if (!appUIState.currentGeneratedPrompt || appUIState.currentGeneratedPrompt.includes("[") || appUIState.currentGeneratedPrompt.includes("]")) {
-                        showCustomModal("Azione non valida", "Per favore, genera prima un prompt personalizzato e assicurati che non contenga campi non completati.");
+                        showCustomModal("Azione non valida", "Per favor, genera prima un prompt personalizzato e assicurati che non contenga campi non completati.");
                         return;
                     }
-                    // Gestione dello spinner specifico della card
                     loadingIndicatorElement.style.display = 'flex';
                     outputElement.innerHTML = "Generazione della risposta AI in corso...";
                     outputElement.style.color = '#888';
@@ -554,7 +530,7 @@ export function renderCards(prompts, filterCategoria = "", searchTerm = "", titl
                     try {
                         const aiResponse = await callGeminiAPI(appUIState.currentGeneratedPrompt);
                         if (aiResponse) {
-                            setUIState({ currentAIResponse: aiResponse }); // Aggiorna lo stato della risposta AI
+                            setUIState({ currentAIResponse: aiResponse });
                             outputElement.innerHTML = marked.parse(aiResponse);
                             outputElement.style.color = '#222';
                         } else {
@@ -572,7 +548,6 @@ export function renderCards(prompts, filterCategoria = "", searchTerm = "", titl
                     }
                 },
                 onCopyAIResponse: () => {
-                    // Leggi da appUIState
                     const textToCopy = appUIState.currentAIResponse;
                     if (!textToCopy) {
                         showCustomModal("Azione non valida", "Genera prima una risposta AI da copiare.");
@@ -587,7 +562,7 @@ export function renderCards(prompts, filterCategoria = "", searchTerm = "", titl
                 onResetOutput: (outputElement) => {
                     outputElement.innerHTML = "Il prompt personalizzato apparirà qui dopo la generazione.";
                     outputElement.style.color = '#444';
-                    setUIState({ currentGeneratedPrompt: "", currentAIResponse: "" }); // Resetta lo stato
+                    setUIState({ currentGeneratedPrompt: "", currentAIResponse: "" });
                     showCustomModal("Output Reset", "Il campo di output è stato pulito. Puoi generare un nuovo prompt.");
                 }
             });
@@ -610,24 +585,8 @@ export function populateCategoryFilter(categories) {
     }
 }
 
-export function populateTitleFilter(prompts) {
-    if (UI_ELEMENTS.titleFilter) { // Assicurati che titleFilter sia in UI_ELEMENTS
-        UI_ELEMENTS.titleFilter.innerHTML = '<option value="">Tutti i titoli</option>';
-        const uniqueTitles = new Set();
-        prompts.forEach(row => {
-            const title = row[0];
-            if (title) uniqueTitles.add(title);
-        });
-        Array.from(uniqueTitles).sort().forEach(title => {
-            const option = document.createElement("option");
-            option.value = title;
-            option.textContent = title;
-            UI_ELEMENTS.titleFilter.appendChild(option);
-        });
-    }
-}
+// RIMOSSO: populateTitleFilter
 
-// Funzioni per la gestione dello spinner iniziale (ora usano setUIState)
 export function showLoadingSpinner() {
     setUIState({ isLoadingInitialPrompts: true, globalErrorMessage: "" });
 }
@@ -636,7 +595,6 @@ export function hideLoadingSpinner() {
     setUIState({ isLoadingInitialPrompts: false });
 }
 
-// Funzione per mostrare errori globali non legati a modali specifiche
 export function showGlobalErrorMessage(message) {
     setUIState({ globalErrorMessage: message });
 }
@@ -649,6 +607,3 @@ function copyTextToClipboard(text) {
     document.execCommand("copy");
     document.body.removeChild(tempTextarea);
 }
-
-// Rimosso window.ui = {...} per evitare variabili globali non necessarie
-// Le funzioni sono accessibili tramite import dove servono.
