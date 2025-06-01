@@ -17,8 +17,12 @@
                 <select id="category-filter">
                     <option value="">Tutte le categorie</option>
                 </select>
+                <select id="title-filter">
+                    <option value="">Tutti i titoli</option>
+                </select>
                 <input type="text" id="search-input" placeholder="Cerca prompt per titolo o descrizione..." />
             </div>
+            <div id="global-error-message" class="error-message" style="display:none;"></div>
             <div id="prompt-container">
                 <div id="loading-spinner" class="spinner-container">
                     <div class="spinner"></div>
@@ -39,7 +43,7 @@
         <div class="custom-modal-content">
             <h3 id="modal-title"></h3>
             <pre id="modal-content"></pre>
-            <button class="close-button" onclick="window.ui.hideCustomModal()">Chiudi</button>
+            <button id="modal-close-button" class="close-button">Chiudi</button>
         </div>
     </div>
 
@@ -55,8 +59,8 @@
                 <option value="https://www.perplexity.ai/">Perplexity AI</option>
             </select>
             <div class="modal-buttons">
-                <button class="confirm-button" onclick="window.ui.confirmAISelection()">Conferma</button>
-                <button class="cancel-button" onclick="window.ui.hideAISelectionModal()">Annulla</button>
+                <button id="ai-selection-confirm-button" class="confirm-button">Conferma</button>
+                <button id="ai-selection-close-button" class="cancel-button">Annulla</button>
             </div>
         </div>
     </div>

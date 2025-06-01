@@ -1,34 +1,35 @@
 // js/constants.js
 
-export const SHEET_ID = "1uDoHvedmUcczP4rjI0GNZWOWstMPfhYuUahNPPbMoxg";
-export const SHEET_RANGE = "Prompt Prestabiliti!A2:H";
+export const SHEET_ID = "1uDoHvedmUcczP4rjI0GNZWOWstMPfhYuUahNPPbMoxg"; //
+export const SHEET_RANGE = "Prompt Prestabiliti!A2:H"; //
 
-export const NETLIFY_FUNCTION_URLS = {
-    GET_SHEETS: "/.netlify/functions/get-my-sheets",
-    CALL_GEMINI: "/.netlify/functions/call-gemini"
+export const NETLIFY_FUNCTION_URLS = { //
+    GET_SHEETS: "/.netlify/functions/get-my-sheets", //
+    CALL_GEMINI: "/.netlify/functions/call-gemini" //
 };
 
-export const AI_OPTIONS = [
-    { name: "Google Gemini", url: "https://gemini.google.com/" },
-    { name: "ChatGPT", url: "https://chatgpt.com/" },
-    { name: "Claude AI", url: "https://claude.ai/" },
-    { name: "Microsoft Copilot", url: "https://copilot.microsoft.com/" },
-    { name: "Perplexity AI", url: "https://www.perplexity.ai/" }
+export const AI_OPTIONS = [ //
+    { name: "Google Gemini", url: "https://gemini.google.com/" }, //
+    { name: "ChatGPT", url: "https://chatgpt.com/" }, //
+    { name: "Claude AI", url: "https://claude.ai/" }, //
+    { name: "Microsoft Copilot", url: "https://copilot.microsoft.com/" }, //
+    { name: "Perplexity AI", url: "https://www.perplexity.ai/" } //
 ];
 
-export const GLOBAL_STATE = {
-    currentGeneratedPrompt: "",
-    currentAIResponse: ""
-};
+// L'oggetto GLOBAL_STATE viene rimosso da qui e la sua logica di stato dinamico
+// verrà gestita internamente in ui.js per una maggiore coerenza e manutenibilità.
 
-export const UI_ELEMENTS = {
-    promptContainer: document.getElementById("prompt-container"),
-    loadingSpinner: document.getElementById("loading-spinner"),
-    categoryFilter: document.getElementById("category-filter"),
-    searchInput: document.getElementById("search-input"),
-    customModalOverlay: document.getElementById("custom-modal-overlay"),
-    modalTitle: document.getElementById("modal-title"),
-    modalContent: document.getElementById("modal-content"),
-    aiSelectionModalOverlay: document.getElementById("ai-selection-modal-overlay"),
-    aiSelectionDropdown: document.getElementById("ai-selection-dropdown"),
+export const UI_ELEMENTS = { //
+    promptContainer: document.getElementById("prompt-container"), //
+    loadingSpinner: document.getElementById("loading-spinner"), //
+    categoryFilter: document.getElementById("category-filter"), //
+    searchInput: document.getElementById("search-input"), //
+    customModalOverlay: document.getElementById("custom-modal-overlay"), //
+    modalTitle: document.getElementById("modal-title"), //
+    modalContent: document.getElementById("modal-content"), //
+    aiSelectionModalOverlay: document.getElementById("ai-selection-modal-overlay"), //
+    aiSelectionDropdown: document.getElementById("ai-selection-dropdown"), //
+    // Aggiungeremo qui 'modalCloseButton' e 'aiSelectionCloseButton'
+    // una volta che avremo il contenuto di index.html per identificarli.
+    // E 'globalErrorMessage' come discusso precedentemente.
 };
