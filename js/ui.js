@@ -575,7 +575,7 @@ export function renderCards(prompts, filterCategoria = "", searchTerm = "") { //
 
 export function populateCategoryFilter(categories) {
     if (UI_ELEMENTS.categoryFilter) {
-        UI_ELEMENTS.categoryFilter.innerHTML = '<option value="">Tutte le categorie</option>';
+        UI_ELEMENTS.categoryFilter.innerHTML = '<option value="">Filtra per categoria</option>';
         Array.from(categories).sort().forEach(cat => {
             const option = document.createElement("option");
             option.value = cat;
