@@ -394,7 +394,7 @@ button:active {
     word-wrap: break-word;
     text-align: left; /* Allinea il testo a sinistra per leggibilità */
 
-    line-height: 1.35; /* Leggermente più arioso di 1.2/1.3, ma comunque compatto e leggibile */
+    line-height: 1.3; /* Leggermente più arioso di 1.2/1.3, ma comunque compatto e leggibile */
     white-space: pre-line; /* Fondamentale per collassare multiple newline in una singola */
     max-height: 250px; /* Altezza fissa del campo output */
     overflow-y: auto; /* Aggiunge scrollbar verticale quando il contenuto supera max-height */
@@ -421,7 +421,6 @@ button:active {
 .prompt-output::-webkit-scrollbar-thumb:hover {
     background: #555; /* Colore al passaggio del mouse */
 }
-
 
 /* Margini per gli elementi di blocco ALL'INTERNO di .prompt-output */
 /* Questi si applicano solo se l'output include tag HTML come <p>, <div>, <ul>, etc. */
@@ -455,6 +454,31 @@ button:active {
 .prompt-output pre:last-child,
 .prompt-output h1:last-child, .prompt-output h2:last-child, .prompt-output h3:last-child, .prompt-output h4:last-child, .prompt-output h5:last-child, .prompt-output h6:last-child,
 .prompt-output blockquote:last-child, .prompt-output dl:last-child, .prompt-output dd:last-child, .prompt-output dt:last-child {
+    margin-bottom: 0;
+}
+
+/* Stili per le liste e i punti elenco all'interno di .prompt-output */
+.prompt-output ul,
+.prompt-output ol {
+    list-style: disc; /* Puoi usare 'circle', 'square' per ul, o 'decimal' per ol */
+    padding-left: 20px; /* Indentazione per i punti elenco */
+    margin-top: 0.5em; /* Un piccolo margine sopra la lista se non è il primo elemento */
+    margin-bottom: 0.5em; /* Un piccolo margine sotto la lista se non è l'ultimo elemento */
+}
+
+.prompt-output li {
+    margin-bottom: 0.2em; /* Riduci lo spazio tra i singoli elementi di lista */
+    line-height: 1.35; /* Assicurati che l'interlinea sia coerente anche per i punti elenco */
+}
+
+/* Rimuovi il margine dall'ultimo elemento della lista per evitare spazi extra alla fine */
+.prompt-output ul:last-child,
+.prompt-output ol:last-child {
+    margin-bottom: 0;
+}
+
+/* Rimuovi il margine inferiore dall'ultimo elemento li di una lista */
+.prompt-output li:last-child {
     margin-bottom: 0;
 }
 
