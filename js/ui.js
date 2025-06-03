@@ -33,7 +33,7 @@ function renderUIBasedOnState() {
         if (appUIState.isLoadingInitialPrompts) {
             UI_ELEMENTS.loadingSpinner.classList.remove("hidden");
             if (UI_ELEMENTS.promptContainer) {
-                UI_ELEMENTS.promptContainer.innerHTML = '';
+                // linea da eliminare per spinner corretto // UI_ELEMENTS.promptContainer.innerHTML = '';
             }
         } else {
             UI_ELEMENTS.loadingSpinner.classList.add("hidden");
