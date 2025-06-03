@@ -3,6 +3,12 @@
 import { UI_ELEMENTS, AI_OPTIONS } from './constants.js';
 import { callGeminiAPI } from './api.js';
 
+// Configurazione di marked.js
+marked.setOptions({
+    breaks: false, // Non convertire i singoli a capo in <br>
+    gfm: true      // Abilita GitHub Flavored Markdown (include liste, tabelle, ecc.)
+});
+
 // 1. STATO UI CENTRALIZZATO E INTERNO A UI.JS
 const appUIState = {
     isLoadingInitialPrompts: false, // Per lo spinner generale all'avvio (caricamento prompt)
