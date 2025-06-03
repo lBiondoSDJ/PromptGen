@@ -394,8 +394,7 @@ button:active {
     word-wrap: break-word;
     text-align: left; /* Allinea il testo a sinistra per leggibilità */
 
-    /* MODIFICHE CHIAVE PER TASK 1 & 2 */
-    line-height: 1.45; /* Leggermente più arioso di 1.2/1.3, ma comunque compatto e leggibile */
+    line-height: 1.35; /* Leggermente più arioso di 1.2/1.3, ma comunque compatto e leggibile */
     white-space: pre-line; /* Fondamentale per collassare multiple newline in una singola */
     max-height: 250px; /* Altezza fissa del campo output */
     overflow-y: auto; /* Aggiunge scrollbar verticale quando il contenuto supera max-height */
