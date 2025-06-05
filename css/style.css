@@ -431,8 +431,8 @@ button:active {
 .prompt-output pre,
 .prompt-output h1, .prompt-output h2, .prompt-output h3, .prompt-output h4, .prompt-output h5, .prompt-output h6,
 .prompt-output blockquote, .prompt-output dl, .prompt-output dd, .prompt-output dt {
-    margin-top: 0.5em; /* Un piccolo margine per separare i blocchi */
-    margin-bottom: 0.5em; /* Un piccolo margine per separare i blocchi */
+    margin-top: 0.4em; /* Un piccolo margine per separare i blocchi */
+    margin-bottom: 0.4em; /* Un piccolo margine per separare i blocchi */
     padding: 0; /* Assicurati che non ci sia padding interno che allarga troppo */
 }
 
@@ -462,8 +462,6 @@ button:active {
 .prompt-output ol {
     list-style: disc; /* Puoi usare 'circle', 'square' per ul, o 'decimal' per ol */
     padding-left: 20px; /* Indentazione per i punti elenco */
-    margin-top: 0.5em; /* Un piccolo margine sopra la lista se non è il primo elemento */
-    margin-bottom: 0.5em; /* Un piccolo margine sotto la lista se non è l'ultimo elemento */
 }
 
 .prompt-output li {
