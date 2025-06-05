@@ -485,7 +485,7 @@ button:active {
 /* Regola per ridurre lo spazio tra un paragrafo e una lista immediatamente successiva */
 .prompt-output p + ul,
 .prompt-output p + ol {
-    margin-top: 0 !important; /* Forza l'azzeramento del margine superiore */
+    margin-top: 0.2em; /* Riduci questo margine per avvicinare il paragrafo alla lista */
 }
 
 
