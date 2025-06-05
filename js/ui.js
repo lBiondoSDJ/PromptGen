@@ -511,12 +511,6 @@ export function renderCards(prompts, filterCategoria = "", searchTerm = "") { //
                         finalPrompt = finalPrompt.replace(/\[CHARACTERS\]/g, inputs.characters || "");
                     }
 
-                    // Questo blocco serve per rimuovere a capo extra tra un punto elenco e il successivo a capo, e a capo superflui
-                    finalPrompt = finalPrompt.replace(/\n\s*(\*|\-)\s/g, '\n* '); // Rimuovi spazi extra tra \n e * o -
-                    finalPrompt = finalPrompt.replace(/(\n\s*\*\s*.*?)\n{2,}/g, '$1\n'); // Rimuovi più di un a capo tra elementi di lista
-                    finalPrompt = finalPrompt.split('\n').map(line => line.trimEnd()).join('\n').trim();
-                    finalPrompt = finalPrompt.replace(/([^\n])\n(\*|\-)\s/g, '$1\n\n$2 '); // Trasforma "testo\n* item" in "testo\n\n* item" per assicurare separazione
-                    finalPrompt = finalPrompt.replace(/\n\s*(\*|\-)\s/g, '\n$1 ');
                     setUIState({ currentGeneratedPrompt: finalPrompt, currentAIResponse: "" });
                     outputElement.innerHTML = marked.parse(finalPrompt);
                     outputElement.style.color = '#444';
