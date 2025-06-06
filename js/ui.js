@@ -180,7 +180,7 @@ export function confirmAISelection() {
     }
 }
 
-export function createCard(titolo, descrizione, promptTemplate, categoria, labelTesto, placeholderText, labelLang, labelCharacters, index, callbacks) {
+export function createCard(titolo, descrizione, promptTemplate, categoria, labelTesto, placeholderText, labelLang, labelCharacters, labelKeywords, index, callbacks) {
     const card = document.createElement("div");
     card.className = "prompt-card";
     card.dataset.categoria = categoria?.toLowerCase() || "";
@@ -214,6 +214,7 @@ export function createCard(titolo, descrizione, promptTemplate, categoria, label
     let areaTextInput;
     let langSelect;
     let charactersInput;
+    let keywordsInput;
 
     if (promptTemplate.includes("[ESPERIENZA]")) {
         const esperienzaLabelContainer = document.createElement("div");
@@ -335,6 +336,34 @@ export function createCard(titolo, descrizione, promptTemplate, categoria, label
         cardContent.appendChild(langSelect);
     }
 
+    if (promptTemplate.includes("[KEYWORDS]")) {
+        const keywordsLabelContainer = document.createElement("div");
+        keywordsLabelContainer.className = "label-with-help";
+
+        const keywordsLabel = document.createElement("label");
+        keywordsLabel.textContent = "Parole chiave (separate da virgola):";
+
+        const keywordsHelpIcon = document.createElement("span");
+        keywordsHelpIcon.className = "help-icon";
+        keywordsHelpIcon.textContent = "?";
+
+    const keywordsTooltip = document.createElement("span");
+    keywordsTooltip.className = "tooltip";
+    keywordsTooltip.textContent = "Inserisci le parole chiave separate con una virgola.";
+
+    keywordsHelpIcon.appendChild(keywordsTooltip);
+
+    keywordsLabelContainer.appendChild(keywordsLabel);
+    keywordsLabelContainer.appendChild(keywordsHelpIcon);
+
+    keywordsInput = document.createElement("input");
+    keywordsInput.placeholder = "es. sinner, sport, tennis";
+    keywordsInput.id = `keywords-${index}`;
+
+    cardContent.appendChild(keywordsLabelContainer);
+    cardContent.appendChild(keywordsInput);
+}
+
     if (promptTemplate.includes("[CHARACTERS]")) {
         const charactersLabel = document.createElement("label");
         charactersLabel.textContent = typeof labelCharacters === 'string' && labelCharacters.trim() !== '' ? labelCharacters : "Numero di battute desiderate:";
@@ -374,7 +403,8 @@ export function createCard(titolo, descrizione, promptTemplate, categoria, label
             testata: testataInput ? testataInput.value : '',
             areaText: areaTextInput ? areaTextInput.value : '',
             lang: langSelect ? langSelect.value : '',
-            characters: charactersInput ? charactersInput.value : ''
+            characters: charactersInput ? charactersInput.value : '',
+            keywords: keywordsInput ? keywordsInput.value : ''
         };
         callbacks.onGeneratePrompt(promptTemplate, inputs, output);
     };
@@ -492,9 +522,9 @@ export function renderCards(prompts, filterCategoria = "", searchTerm = "") { //
         }
     } else {
         filteredPrompts.forEach((row, i) => {
-            const [titolo, descrizione, promptTemplate, categoria, labelTesto, placeholderText, labelLang, labelCharacters] = row;
+            const [titolo, descrizione, promptTemplate, categoria, labelTesto, placeholderText, labelLang, labelCharacters, labelKeywords] = row;
 
-            const card = createCard(titolo, descrizione, promptTemplate, categoria, labelTesto, placeholderText, labelLang, labelCharacters, i, {
+            const card = createCard(titolo, descrizione, promptTemplate, categoria, labelTesto, placeholderText, labelLang, labelCharacters,labelKeywords, i, {
                 onGeneratePrompt: (template, inputs, outputElement) => {
                     let finalPrompt = template
                         .replace(/\[ESPERIENZA\]/g, inputs.esperienza || "[ESPERIENZA]")
@@ -509,6 +539,9 @@ export function renderCards(prompts, filterCategoria = "", searchTerm = "") { //
                     }
                     if (template.includes("[CHARACTERS]")) {
                         finalPrompt = finalPrompt.replace(/\[CHARACTERS\]/g, inputs.characters || "");
+                    }
+                    if (template.includes("[KEYWORDS]")) {
+                        finalPrompt = finalPrompt.replace(/\[KEYWORDS\]/g, inputs.keywords || "");
                     }
 
                     setUIState({ currentGeneratedPrompt: finalPrompt, currentAIResponse: "" });
