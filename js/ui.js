@@ -349,7 +349,7 @@ export function createCard(titolo, descrizione, promptTemplate, categoria, label
 
     const keywordsTooltip = document.createElement("span");
     keywordsTooltip.className = "tooltip";
-    keywordsTooltip.textContent = "Inserisci le parole chiave separate con una virgola.";
+    keywordsTooltip.textContent = "Inserisci le parole chiave separate con una virgola. Le parole chiave possono anche essere formate da più parole (es: intelligenza artificiale, prompt design, machine learning)";
 
     keywordsHelpIcon.appendChild(keywordsTooltip);
 
@@ -357,7 +357,7 @@ export function createCard(titolo, descrizione, promptTemplate, categoria, label
     keywordsLabelContainer.appendChild(keywordsHelpIcon);
 
     keywordsInput = document.createElement("input");
-        keywordsInput.placeholder = typeof placeholderText === 'string' && placeholderText.trim() !== '' ? placeholderText : "es. sinner, tennis, wimbledon";
+    keywordsInput.placeholder = "es. sinner, tennis, wimbledon";
     keywordsInput.id = `keywords-${index}`;
 
     cardContent.appendChild(keywordsLabelContainer);
