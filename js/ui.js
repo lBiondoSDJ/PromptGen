@@ -341,7 +341,7 @@ export function createCard(titolo, descrizione, promptTemplate, categoria, label
         keywordsLabelContainer.className = "label-with-help";
 
         const keywordsLabel = document.createElement("label");
-        keywordsLabel.textContent = "Parole chiave (separate da virgola):";
+        keywordsLabel.textContent = typeof labelKeywords === 'string' && labelKeywords.trim() !== '' ? labelKeywords : "Parole chiave (separate da virgola):"; 
 
         const keywordsHelpIcon = document.createElement("span");
         keywordsHelpIcon.className = "help-icon";
@@ -357,7 +357,7 @@ export function createCard(titolo, descrizione, promptTemplate, categoria, label
     keywordsLabelContainer.appendChild(keywordsHelpIcon);
 
     keywordsInput = document.createElement("input");
-    keywordsInput.placeholder = "es. sinner, sport, tennis";
+        keywordsInput.placeholder = typeof placeholderText === 'string' && placeholderText.trim() !== '' ? placeholderText : "es. sinner, tennis, wimbledon";
     keywordsInput.id = `keywords-${index}`;
 
     cardContent.appendChild(keywordsLabelContainer);
