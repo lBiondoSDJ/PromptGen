@@ -1,7 +1,7 @@
 // js/constants.js
 
 export const SHEET_ID = "1uDoHvedmUcczP4rjI0GNZWOWstMPfhYuUahNPPbMoxg";
-export const SHEET_RANGE = "Prompt Prestabiliti!A2:H";
+export const SHEET_RANGE = "Prompt Prestabiliti!A2:I";
 
 export const NETLIFY_FUNCTION_URLS = {
     GET_SHEETS: "/.netlify/functions/get-my-sheets",
